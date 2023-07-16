@@ -6,7 +6,7 @@
 /*   By: hfukushi <hfukushi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 14:02:50 by hfukushi          #+#    #+#             */
-/*   Updated: 2023/07/16 18:00:00 by hfukushi         ###   ########.fr       */
+/*   Updated: 2023/07/16 18:24:53 by hfukushi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char *link_buf(int fd, char *save, int *readcount)
 {
 	long	bytes;
 	char *	buf;
-(void )fd;
+
 	buf = (char *)malloc((sizeof(char)* (BUFFER_SIZE + 1)));
 	if (!buf)
 		return (NULL);
@@ -76,7 +76,7 @@ char	*reset_save(char *save)
 		return (NULL);
 	while (save[len] != '\0' && save[len] != '\n')
 		len++;
-	reset = (char *)malloc(sizeof(char) * (ft_strlen(save) - len +1 ));//changed
+	reset = (char *)malloc(sizeof(char) * (ft_strlen(save) - len +1 ));
 	if ( reset == NULL)
 	{
 		free(save);
@@ -108,42 +108,10 @@ char *get_next_line(int fd)
 	return (line);
 }
 
-
-
-// char *link_buf(int fd, char *save)
-// {
-// 	char	*buf;
-// 	long	bytes;
-	
-// 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-// 	if (buf == NULL)
-// 		return (NULL);
-// 	while(1)
-// 	{
-// 		bytes = read(fd, buf, BUFFER_SIZE);
-// 		if (bytes == -1)
-// 		{
-// 			free(save);
-// 			free(buf);
-// 			return(NULL);
-// 		}
-// 		if (bytes == 0)
-// 		{
-// 			free(save);
-// 			break ;
-// 		}
-// 		buf[bytes] = '\0';
-// 		save = ft_strjoin(save, buf);
-// 		if(ft_strchr(save ,'\n') != NULL)
-// 			break ;
-// 	}
-// }
-
-
 //static変数は最初に初期化される
 
 
-#include <fcntl.h>
+// #include <fcntl.h>
 
 // __attribute__((destructor)) static void destructor()
 // {

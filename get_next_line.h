@@ -6,7 +6,7 @@
 /*   By: hfukushi <hfukushi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 14:03:04 by hfukushi          #+#    #+#             */
-/*   Updated: 2023/07/16 13:31:17 by hfukushi         ###   ########.fr       */
+/*   Updated: 2023/07/16 18:13:39 by hfukushi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 1000
 #endif
-
-# define OPEN_MAX 10240 
 
 # include <unistd.h>
 # include <stdlib.h>
