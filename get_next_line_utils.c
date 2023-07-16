@@ -6,7 +6,7 @@
 /*   By: hfukushi <hfukushi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 14:02:44 by hfukushi          #+#    #+#             */
-/*   Updated: 2023/07/16 17:59:16 by hfukushi         ###   ########.fr       */
+/*   Updated: 2023/07/16 18:39:19 by hfukushi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ size_t	ft_strlen(char *s)
 	size_t	count;
 
 	count = 0;
-	if ( s == NULL)
+	if (s == NULL)
 		return (0);
 	while (*s != '\0')
 	{
@@ -32,14 +32,14 @@ char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*s;
 	size_t	i;
-	size_t  s1_len;
+	size_t	s1_len;
 	size_t	s2_len;
 
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
 	if (s2 == NULL)
 		return (NULL);
-	s = (char *)malloc(sizeof(char)*(s1_len + s2_len + 1));
+	s = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
 	if (s == NULL)
 		return (NULL);
 	i = 0;
@@ -55,8 +55,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	free(s1);
 	return (s);
 }
-
-#include <stdio.h>
 
 size_t	ft_strlcpy(char *dst, char *src, size_t destsize)
 {
@@ -82,7 +80,7 @@ char	*ft_strchr(char *s, int c)
 	char	letter;
 
 	if (s == NULL)
-		return NULL;
+		return (NULL);
 	letter = c;
 	s_p = (char *)s;
 	while (*s_p != '\0' && *s_p != letter)
@@ -91,30 +89,3 @@ char	*ft_strchr(char *s, int c)
 		return (s_p);
 	return (NULL);
 }
-
-// char	*ft_substr(char const *s, unsigned int start, size_t len)
-// {
-// 	size_t	i;
-// 	char	*str;
-
-// 	if (s == NULL)
-// 		return (NULL);
-// 	i = 0;
-// 	if (ft_strlen(s) - start < len)
-// 		len = ft_strlen(s) - start;
-// 	if (ft_strlen(s) < start)
-// 		len = 0;
-// 	str = (char *)malloc(sizeof(char) * len + 1);
-// 	if (str == NULL)
-// 		return (NULL);
-// 	if (start < ft_strlen(s))
-// 	{
-// 		while (s[i + start] != '\0' && i < len)
-// 		{	
-// 			str[i] == s[i + start];
-// 			i++;
-// 		}
-// 	}
-// 	str[i] = '\0';
-// 	return (str);
-// }
