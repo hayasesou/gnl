@@ -6,12 +6,11 @@
 /*   By: hfukushi <hfukushi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 14:02:50 by hfukushi          #+#    #+#             */
-/*   Updated: 2023/07/16 18:41:27 by hfukushi         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:25:07 by hfukushi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 char	*link_buf(int fd, char *save)
 {
@@ -50,12 +49,14 @@ char	*make_line(char *save)
 		return (NULL);
 	while (save[len] != '\0' && save[len] != '\n')
 		len++;
-	line = (char *)malloc(sizeof(char) * (len + 2));
+	if (save[len] == '\n')
+		len += 2;
+	else
+		len += 1;
+	line = (char *)malloc(sizeof(char) * (len));
 	if (line == NULL)
-	{
 		return (NULL);
-	}
-	ft_strlcpy(line, save, len + 2);
+	ft_strlcpy(line, save, len);
 	return (line);
 }
 
@@ -69,16 +70,15 @@ char	*reset_save(char *save)
 		return (NULL);
 	while (save[len] != '\0' && save[len] != '\n')
 		len++;
+	if (save[len] == '\0')
+	{
+		free(save);
+		return (NULL);
+	}	
 	reset = (char *)malloc(sizeof(char) * (ft_strlen(save) - len + 1));
 	if (reset == NULL)
 	{
 		free(save);
-		return (NULL);
-	}
-	if (save[len] == '\0')
-	{
-		free(save);
-		free(reset);
 		return (NULL);
 	}
 	ft_strlcpy(reset, &save[len + 1], ft_strlen(save) - len);
@@ -102,29 +102,39 @@ char	*get_next_line(int fd)
 //static変数は最初に初期化される
 
 // #include <fcntl.h>
+// #include <stdio.h>
 
 // __attribute__((destructor)) static void destructor()
 // {
 //     system("leaks -q a.out");
 // }
 
-// int main()
+// void test(char *s)
 // {
 // 	char *p;
 // 	int		fd;
 
 // 	int i;
-// 	fd = open("sample.txt",O_RDONLY);
+// 	fd = open(s,O_RDONLY);
 // 	i = 0;
 // 	while (1)
 // 	{
 // 		i++;
-// 		// printf("\n\n===== %d ====\n", i);
 // 		p = get_next_line(fd);
 // 		printf("%d,%s\n",i, p);
 // 		free(p);
 // 		if(p == NULL)
 // 			break ;
 // 	}
+// 	printf("\n=========\n");
+// }
+// int main()
+// {
+// 	test("sample.txt");
+// 	test("nnewline.txt");
+// 	test("lnnewline.txt");
+// 	test("lnewline.txt");
+// 	test("null.txt");
+// 	test("mline.txt");
 // 	return (0);
 // }

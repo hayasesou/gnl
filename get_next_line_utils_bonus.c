@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#include <stdio.h>
 
 size_t	ft_strlen(char *s)
 {

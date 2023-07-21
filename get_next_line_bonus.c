@@ -6,12 +6,11 @@
 /*   By: hfukushi <hfukushi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:38:39 by hfukushi          #+#    #+#             */
-/*   Updated: 2023/07/16 18:57:12 by hfukushi         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:25:54 by hfukushi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#include <stdio.h>
 
 char	*link_buf(int fd, char *save)
 {
@@ -98,3 +97,40 @@ char	*get_next_line(int fd)
 	save[fd] = reset_save(save[fd]);
 	return (line);
 }
+
+// #include <fcntl.h>
+// #include <stdio.h>
+// #include <stdarg.h>
+
+// void test(char *s1, char *s2, char *s3)
+// {
+// 	char *p;
+// 	int		fd1, fd2, fd3;
+
+// 	int i;
+// 	fd1 = open(s1,O_RDONLY);
+// 	fd2 = open(s2,O_RDONLY);
+// 	fd3 = open(s3,O_RDONLY);
+// 	i = 0;
+// 	while (1)
+// 	{
+// 		i++;
+// 		printf("\n====== %d =======\n",i);
+// 		p = get_next_line(fd1);
+// 		printf("fd = [%d],%s\n\n",fd1, p);
+// 		p = get_next_line(fd2);
+// 		printf("fd = [%d],%s\n\n",fd2, p);
+// 		p = get_next_line(fd3);
+// 		printf("fd = [%d],%s\n\n",fd3, p);
+// 		free(p);
+// 		if(i > 2 )
+// 			break ;
+// 	}
+// 	printf("\n==========================================\n");
+// }
+// int main()
+// {
+// 	test("sample.txt","nnewline.txt","lnnewline.txt");
+// 	test("lnewline.txt","null.txt","mline.txt");
+// 	return (0);
+// }

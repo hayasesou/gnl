@@ -6,12 +6,11 @@
 /*   By: hfukushi <hfukushi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 14:02:44 by hfukushi          #+#    #+#             */
-/*   Updated: 2023/07/16 18:39:19 by hfukushi         ###   ########.fr       */
+/*   Updated: 2023/07/21 14:21:37 by hfukushi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 size_t	ft_strlen(char *s)
 {
