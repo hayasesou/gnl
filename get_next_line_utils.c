@@ -6,11 +6,12 @@
 /*   By: hfukushi <hfukushi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 14:02:44 by hfukushi          #+#    #+#             */
-/*   Updated: 2023/07/21 14:21:37 by hfukushi         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:59:52 by hfukushi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 size_t	ft_strlen(char *s)
 {
@@ -27,33 +28,62 @@ size_t	ft_strlen(char *s)
 	return (count);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, size_t s1_len, size_t s2_len)
 {
 	char	*s;
 	size_t	i;
-	size_t	s1_len;
-	size_t	s2_len;
 
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
 	if (s2 == NULL)
 		return (NULL);
 	s = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
 	if (s == NULL)
+	{
+		free(s1);
 		return (NULL);
-	i = 0;
+	}
+	i = -1;
+	while (++i < s1_len)
+		s[i] = s1[i];
 	while (i < s1_len + s2_len)
 	{
-		if (i < s1_len)
-			s[i] = s1[i];
-		else
-			s[i] = s2[i - s1_len];
+		s[i] = s2[i - s1_len];
 		i++;
 	}
 	s[i] = '\0';
 	free(s1);
 	return (s);
 }
+
+// char	*ft_strjoin(char *s1, char *s2)
+// {
+// 	char	*s;
+// 	size_t	i;
+// 	size_t	s1_len;
+// 	size_t	s2_len;
+
+// 	s1_len = ft_strlen(s1);
+// 	s2_len = ft_strlen(s2);
+// 	if (s2 == NULL)
+// 		return (NULL);
+// 	s = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
+// 	if (s == NULL)
+// 	{
+// 		free(s1);
+// 		return (NULL);
+// 	}
+// 	i = 0;
+// 	while (i < s1_len + s2_len)
+// 	{
+// 		if (i < s1_len)
+// 			s[i] = s1[i];
+// 		else
+// 			s[i] = s2[i - s1_len];
+// 		i++;
+// 	}
+// 	s[i] = '\0';
+// 	free(s1);
+// 	return (s);
+// }
 
 size_t	ft_strlcpy(char *dst, char *src, size_t destsize)
 {
