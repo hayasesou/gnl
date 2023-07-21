@@ -6,7 +6,7 @@
 /*   By: hfukushi <hfukushi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 14:03:04 by hfukushi          #+#    #+#             */
-/*   Updated: 2023/07/21 17:57:20 by hfukushi         ###   ########.fr       */
+/*   Updated: 2023/07/22 00:42:13 by hfukushi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
-char	*ft_strjoin(char *s1, char *s2,size_t s1_len, size_t s2_len);
+char	*ft_strjoin(char *s1, char *s2);
 size_t	ft_strlen(char *s);
 char	*ft_strchr(char *s, int c);
 size_t	ft_strlcpy(char *dst, char *src, size_t destsize);

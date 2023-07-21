@@ -6,52 +6,12 @@
 /*   By: hfukushi <hfukushi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 14:02:50 by hfukushi          #+#    #+#             */
-/*   Updated: 2023/07/21 19:05:39 by hfukushi         ###   ########.fr       */
+/*   Updated: 2023/07/22 01:34:23 by hfukushi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
-
-// char	*link_buf(int fd, char *save)
-// {
-// 	long	bytes;
-// 	char	*buf;
-
-// 	buf = (char *)malloc((sizeof(char) * (BUFFER_SIZE + 1)));
-// 	if (!buf)
-// 	{
-// 		if (save != NULL)
-// 			free(save);
-// 		return (NULL);
-// 	}
-// 	bytes = 1;
-// 	while (bytes != 0 && (!ft_strchr(save, '\n')))
-// 	{
-// 		bytes = read(fd, buf, BUFFER_SIZE);
-// 		if (bytes == 0 || bytes == -1)
-// 		{
-// 			free(buf);
-// 			if (bytes == 0 && ft_strlen(save) != 0)
-// 				return (save);
-// 			free(save);
-// 			return (NULL);
-// 		}
-// 		buf[bytes] = '\0';
-// 		save = ft_strjoin(save, buf);
-// 	}
-// 	free(buf);
-// 	return (save);
-// }
-
-char *bytesprocess(long bytes,char *buf,char *save)
-{
-	free(buf);
-	if (bytes == 0 && ft_strlen(save) != 0)
-		return (save);
-	free(save);
-	return (NULL);
-}
 
 char	*link_buf(int fd, char *save)
 {
@@ -59,7 +19,7 @@ char	*link_buf(int fd, char *save)
 	char	*buf;
 
 	buf = (char *)malloc((sizeof(char) * (BUFFER_SIZE + 1)));
-	if (buf == NULL)
+	if (!buf)
 	{
 		if (save != NULL)
 			free(save);
@@ -70,14 +30,19 @@ char	*link_buf(int fd, char *save)
 	{
 		bytes = read(fd, buf, BUFFER_SIZE);
 		if (bytes == 0 || bytes == -1)
-			return (bytesprocess(bytes,buf,save));
+		{
+			free(buf);
+			if (bytes == 0 && ft_strlen(save) != 0)
+				return (save);
+			free(save);
+			return (NULL);
+		}
 		buf[bytes] = '\0';
-		save = ft_strjoin(save, buf, ft_strlen(save), ft_strlen(buf));
+		save = ft_strjoin(save, buf);
 	}
 	free(buf);
 	return (save);
 }
-
 
 char	*make_line(char *save)
 {
@@ -104,10 +69,12 @@ char	*reset_save(char *save)
 {
 	size_t	len;
 	char	*reset;
+	size_t	save_len;
 
 	len = 0;
 	if (save == NULL)
 		return (NULL);
+	save_len = ft_strlen(save);
 	while (save[len] != '\0' && save[len] != '\n')
 		len++;
 	if (save[len] == '\0')
@@ -115,16 +82,42 @@ char	*reset_save(char *save)
 		free(save);
 		return (NULL);
 	}	
-	reset = (char *)malloc(sizeof(char) * (ft_strlen(save) - len + 1));
+	reset = (char *)malloc(sizeof(char) * (save_len - len + 1));
 	if (reset == NULL )
 	{
 		free(save);
 		return (NULL);
 	}
-	ft_strlcpy(reset, &save[len + 1], ft_strlen(save) - len);
+	ft_strlcpy(reset, &save[len + 1], save_len - len);
 	free(save);
 	return (reset);
 }
+
+// char	*reset_save(char *save)
+// {
+// 	size_t	len;
+// 	char	*reset;
+
+// 	len = 0;
+// 	if (save == NULL)
+// 		return (NULL);
+// 	while (save[len] != '\0' && save[len] != '\n')
+// 		len++;
+// 	if (save[len] == '\0')
+// 	{
+// 		free(save);
+// 		return (NULL);
+// 	}	
+// 	reset = (char *)malloc(sizeof(char) * (ft_strlen(save) - len + 1));
+// 	if (reset == NULL )
+// 	{
+// 		free(save);
+// 		return (NULL);
+// 	}
+// 	ft_strlcpy(reset, &save[len + 1], ft_strlen(save) - len);
+// 	free(save);
+// 	return (reset);
+// }
 
 char	*get_next_line(int fd)
 {
@@ -147,6 +140,27 @@ char	*get_next_line(int fd)
 __attribute__((destructor)) static void destructor()
 {
     system("leaks -q a.out");
+}
+
+int main()
+{
+	char *p;
+	int		fd;
+
+	int i;
+	fd = open("100000",O_RDONLY);
+	// fd = open("lnewline.txt",O_RDONLY);
+	i = 0;
+	while (i < 100)
+	{
+		i++;
+		p = get_next_line(fd);
+		printf("%d,%s\n",i, p);
+		free(p);
+		if(p == NULL)
+			break ;
+	}
+	printf("\n=========\n");
 }
 
 // void test(char *s)
@@ -178,24 +192,3 @@ __attribute__((destructor)) static void destructor()
 // 	test("mline.txt");
 // 	return (0);
 //}
-
-int main()
-{
-	char *p;
-	int		fd;
-
-	int i;
-	fd = open("10",O_RDONLY);
-	// fd = open("lnewline.txt",O_RDONLY);
-	i = 0;
-	while (i < 100)
-	{
-		i++;
-		p = get_next_line(fd);
-		printf("%d,%s\n",i, p);
-		free(p);
-		if(p == NULL)
-			break ;
-	}
-	printf("\n=========\n");
-}
