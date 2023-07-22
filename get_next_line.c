@@ -6,14 +6,23 @@
 /*   By: hfukushi <hfukushi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 14:02:50 by hfukushi          #+#    #+#             */
-/*   Updated: 2023/07/22 01:34:23 by hfukushi         ###   ########.fr       */
+/*   Updated: 2023/07/22 02:42:12 by hfukushi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
 
-char	*link_buf(int fd, char *save)
+char	*process_zero_or_minus_one(long bytes, char *buf, char *save)
+{
+	free(buf);
+	if (bytes == 0 && ft_strlen(save) != 0)
+		return (save);
+	free(save);
+	return (NULL);
+}
+
+char	*read_file_until_newline_or_eof(int fd, char *save)
 {
 	long	bytes;
 	char	*buf;
@@ -30,15 +39,9 @@ char	*link_buf(int fd, char *save)
 	{
 		bytes = read(fd, buf, BUFFER_SIZE);
 		if (bytes == 0 || bytes == -1)
-		{
-			free(buf);
-			if (bytes == 0 && ft_strlen(save) != 0)
-				return (save);
-			free(save);
-			return (NULL);
-		}
+			return (process_zero_or_minus_one(bytes, buf, save));
 		buf[bytes] = '\0';
-		save = ft_strjoin(save, buf);
+		save = ft_strjoin(save, buf, ft_strlen(save), ft_strlen(buf));
 	}
 	free(buf);
 	return (save);
@@ -93,32 +96,6 @@ char	*reset_save(char *save)
 	return (reset);
 }
 
-// char	*reset_save(char *save)
-// {
-// 	size_t	len;
-// 	char	*reset;
-
-// 	len = 0;
-// 	if (save == NULL)
-// 		return (NULL);
-// 	while (save[len] != '\0' && save[len] != '\n')
-// 		len++;
-// 	if (save[len] == '\0')
-// 	{
-// 		free(save);
-// 		return (NULL);
-// 	}	
-// 	reset = (char *)malloc(sizeof(char) * (ft_strlen(save) - len + 1));
-// 	if (reset == NULL )
-// 	{
-// 		free(save);
-// 		return (NULL);
-// 	}
-// 	ft_strlcpy(reset, &save[len + 1], ft_strlen(save) - len);
-// 	free(save);
-// 	return (reset);
-// }
-
 char	*get_next_line(int fd)
 {
 	static char	*save;
@@ -126,7 +103,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	save = link_buf(fd, save);
+	save = read_file_until_newline_or_eof(fd, save);
 	line = make_line(save);
 	save = reset_save(save);
 	return (line);
@@ -134,34 +111,34 @@ char	*get_next_line(int fd)
 
 //static変数は最初に初期化される
 
-#include <fcntl.h>
-#include <stdio.h>
+// #include <fcntl.h>
+// #include <stdio.h>
 
-__attribute__((destructor)) static void destructor()
-{
-    system("leaks -q a.out");
-}
+// __attribute__((destructor)) static void destructor()
+// {
+//     system("leaks -q a.out");
+// }
 
-int main()
-{
-	char *p;
-	int		fd;
+// int main()
+// {
+// 	char *p;
+// 	int		fd;
 
-	int i;
-	fd = open("100000",O_RDONLY);
-	// fd = open("lnewline.txt",O_RDONLY);
-	i = 0;
-	while (i < 100)
-	{
-		i++;
-		p = get_next_line(fd);
-		printf("%d,%s\n",i, p);
-		free(p);
-		if(p == NULL)
-			break ;
-	}
-	printf("\n=========\n");
-}
+// 	int i;
+// 	fd = open("100000",O_RDONLY);
+// 	// fd = open("lnewline.txt",O_RDONLY);
+// 	i = 0;
+// 	while (i < 100)
+// 	{
+// 		i++;
+// 		p = get_next_line(fd);
+// 		printf("%d,%s\n",i, p);
+// 		free(p);
+// 		if(p == NULL)
+// 			break ;
+// 	}
+// 	printf("\n=========\n");
+// }
 
 // void test(char *s)
 // {

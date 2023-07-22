@@ -6,7 +6,7 @@
 /*   By: hfukushi <hfukushi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:39:35 by hfukushi          #+#    #+#             */
-/*   Updated: 2023/07/16 18:56:02 by hfukushi         ###   ########.fr       */
+/*   Updated: 2023/07/22 02:46:59 by hfukushi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,19 @@ size_t	ft_strlen(char *s)
 	return (count);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, size_t s1_len, size_t s2_len)
 {
 	char	*s;
 	size_t	i;
-	size_t	s1_len;
-	size_t	s2_len;
 
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
 	if (s2 == NULL)
 		return (NULL);
 	s = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
 	if (s == NULL)
+	{
+		free(s1);
 		return (NULL);
+	}
 	i = 0;
 	while (i < s1_len + s2_len)
 	{
