@@ -6,7 +6,7 @@
 /*   By: hfukushi <hfukushi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:38:39 by hfukushi          #+#    #+#             */
-/*   Updated: 2023/07/23 14:12:40 by hfukushi         ###   ########.fr       */
+/*   Updated: 2023/08/13 18:46:06 by hfukushi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	*get_next_line(int fd)
 	static char	*save[OPEN_MAX];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE < 1 || OPEN_MAX < fd)
+	if (fd < 0 || BUFFER_SIZE < 1 || OPEN_MAX <= fd)
 		return (NULL);
 	save[fd] = read_file_until_newline_or_eof(fd, save[fd]);
 	line = make_line(save[fd]);
@@ -128,8 +128,10 @@ char	*get_next_line(int fd)
 // 		printf("\n====== %d =======\n",i);
 // 		p = get_next_line(fd1);
 // 		printf("fd = [%d],%s\n\n",fd1, p);
+//      free(p)
 // 		p = get_next_line(fd2);
 // 		printf("fd = [%d],%s\n\n",fd2, p);
+//      free(p)
 // 		p = get_next_line(fd3);
 // 		printf("fd = [%d],%s\n\n",fd3, p);
 // 		free(p);
